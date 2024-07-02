@@ -16,7 +16,7 @@ export class Manager {
     }
 
     removeCustomer(customer: Customer): void {
-        this.customers = this.customers.filter(c => c !== customer);
+        this.customers = this.customers.filter(data => data !== customer);
     }
 
     openAccount(customer: Customer, account: Account): void {

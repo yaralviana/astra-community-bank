@@ -19,7 +19,7 @@ export class ManagerService {
     }
 
     getManagerById(id: string): Manager {
-        return this.managers.find(m => m.id === id);
+        return this.managers.find(manager => manager.id === id);
     }
 
     updateManager(id: string, fullName: string): Manager {
@@ -32,6 +32,6 @@ export class ManagerService {
     }
 
     deleteManager(id: string): void {
-        this.managers = this.managers.filter(m => m.id !== id);
+        this.managers = this.managers.filter(data => data.id !== id);
     }
 }
