@@ -3,14 +3,14 @@ import { Account } from '../account/account.model'
 import { Manager } from '../manager/manager.model'
 
 export class Customer {
-    fullName: string
     id: string
+    fullName: string
     address: string
     phone: string
-    accounts: Account[]
+    accounts: Account[] = []
     manager: Manager
 
-    constructor(id: string, fullName: string, address: string, phone: string, manager: Manager) {
+    constructor(fullName: string, address: string, phone: string, manager: Manager) {
         this.id = uuidv4()
         this.fullName = fullName
         this.address = address
@@ -28,5 +28,6 @@ export class Customer {
     }
 
     changeAccountType(account: Account, newType: string): void {
+        account.type = newType;
     }
 }

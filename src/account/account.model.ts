@@ -1,29 +1,33 @@
 import { Customer } from '../customer/customer.model'
 
-export abstract class Account {
-    balance: number
-    customer: Customer
+export class Account {
+    balance: number = 0;
+    customer: Customer;
+    type: string;
 
-    constructor(initialBalance: number, customer: Customer) {
-        this.balance = initialBalance
-        this.customer = customer
+    constructor(customer: Customer, type: string) {
+        this.customer = customer;
+        this.type = type;
     }
 
     deposit(amount: number): void {
-        this.balance += amount
+        this.balance += amount;
     }
 
     withdraw(amount: number): void {
-        if (amount <= this.balance) {
-            this.balance -= amount
+        if (this.balance >= amount) {
+            this.balance -= amount;
         } else {
-            throw new Error('Saldo insuficiente!')
+            throw new Error("Saldo insuficiente");
         }
     }
 
     checkBalance(): number {
-        return this.balance
+        return this.balance;
     }
 
-    abstract transfer(destination: Account, amount: number): void
+    transfer(destination: Account, amount: number): void {
+        this.withdraw(amount);
+        destination.deposit(amount);
+    }
 }

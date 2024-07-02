@@ -2,32 +2,32 @@ import { Customer } from '../customer/customer.model'
 import { Account } from '../account/account.model'
 
 export class Manager {
-    fullName: string
-    id: string
-    clients: Customer[]
+    fullName: string;
+    id: string;
+    customers: Customer[] = [];
 
     constructor(fullName: string, id: string) {
-        this.fullName = fullName
-        this.id = id
-        this.clients = []
+        this.fullName = fullName;
+        this.id = id;
     }
 
-    addClient(client: Customer): void {
-        this.clients.push(client)
+    addCustomer(customer: Customer): void {
+        this.customers.push(customer);
     }
 
-    removeClient(client: Customer): void {
-        this.clients = this.clients.filter(item => item !== client)
+    removeCustomer(customer: Customer): void {
+        this.customers = this.customers.filter(c => c !== customer);
     }
 
-    openAccount(client: Customer, accountType: string): void {
+    openAccount(customer: Customer, account: Account): void {
+        customer.openAccount(account);
     }
 
-    closeAccount(client: Customer, account: Account): void {
-        client.closeAccount(account)
+    closeAccount(customer: Customer, account: Account): void {
+        customer.closeAccount(account);
     }
 
-    changeAccountType(client: Customer, account: Account, newType: string): void {
-        client.changeAccountType(account, newType)
+    changeAccountType(customer: Customer, account: Account, newType: string): void {
+        customer.changeAccountType(account, newType);
     }
 }
