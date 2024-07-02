@@ -19,7 +19,7 @@ export class AccountService {
         } else if (type === 'savings') {
             account = new SavingsAccount(customer, extra || 0);
         } else {
-            throw new Error('Invalid account type');
+            throw new Error('Tipo de conta inválido');
         }
 
         account.deposit(extra);
