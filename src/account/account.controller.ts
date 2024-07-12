@@ -2,6 +2,7 @@ import { Controller, Get, Put, Post, Delete, Param, Body, HttpException, HttpSta
 import { AccountService } from './account.service';
 import { CustomerService } from 'src/customer/customer.service';
 import { AccountDto } from './account.dto';
+import { PaymentType } from './paymentType.enum';
 
 @Controller('accounts')
 export class AccountController {
@@ -71,6 +72,32 @@ export class AccountController {
       return new AccountDto(account);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+   @Post(':customerId/:type/pay')
+  async processPayment(
+    @Param('customerId') customerId: string,
+    @Param('type') type: string,
+    @Body('amount') amount: number,
+    @Body('paymentType') paymentType: PaymentType,
+    @Body('paymentDetail') paymentDetail: string,
+  ): Promise<AccountDto> {
+    try {
+      const account = this.accountService.getAccountById(customerId, type);
+      if (!account) {
+        throw new HttpException('Conta não encontrada', HttpStatus.NOT_FOUND);
+      }
+      if (!account.hasSufficientFunds(amount)) {
+        throw new HttpException('Saldo insuficiente', HttpStatus.BAD_REQUEST);
+      }
+      account.processPayment(amount, paymentType, paymentDetail);
+      return new AccountDto(account);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException('Ocorreu um erro no servidor', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

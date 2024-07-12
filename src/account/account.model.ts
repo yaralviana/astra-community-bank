@@ -1,33 +1,49 @@
-import { Customer } from '../customer/customer.model'
+import { Customer } from '../customer/customer.model';
+import { PaymentType } from './paymentType.enum';
 
 export class Account {
-    balance: number = 0;
-    customer: Customer;
-    type: string;
+  balance: number = 0;
+  customer: Customer;
+  type: string;
 
-    constructor(customer: Customer, type: string) {
-        this.customer = customer;
-        this.type = type;
-    }
+  constructor(customer: Customer, type: string) {
+    this.customer = customer;
+    this.type = type;
+  }
 
-    deposit(amount: number): void {
-        this.balance += amount;
-    }
+  deposit(amount: number): void {
+    this.balance += amount;
+  }
 
-    withdraw(amount: number): void {
-        if (this.balance >= amount) {
-            this.balance -= amount;
-        } else {
-            throw new Error("Saldo insuficiente");
-        }
+  withdraw(amount: number): void {
+    if (this.hasSufficientFunds(amount)) {
+      this.balance -= amount;
+    } else {
+      throw new Error("Saldo insuficiente");
     }
+  }
 
-    checkBalance(): number {
-        return this.balance;
-    }
+  checkBalance(): number {
+    return this.balance;
+  }
 
-    transfer(destination: Account, amount: number): void {
-        this.withdraw(amount);
-        destination.deposit(amount);
+  transfer(destination: Account, amount: number): void {
+    this.withdraw(amount);
+    destination.deposit(amount);
+  }
+
+  hasSufficientFunds(amount: number): boolean {
+    return this.balance >= amount;
+  }
+
+  processPayment(amount: number, paymentType: PaymentType, paymentDetail: string): void {
+    this.withdraw(amount);
+    if (paymentType === PaymentType.PIX) {
+      console.info(`Pagamento de R$${amount} feito via pix: ${paymentDetail}`);
+    } else if (paymentType === PaymentType.BILL) {
+      console.info(`Pagamento de R$${amount} feito via boleto: ${paymentDetail}`);
+    } else {
+      throw new Error('Tipo de pagamento inválido');
     }
+  }
 }
