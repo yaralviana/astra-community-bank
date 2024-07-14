@@ -1,4 +1,4 @@
-# {Solidarity}Bank
+# {Astra}CommunityBank
 
 ## Como testar
 
