@@ -5,13 +5,13 @@
 Clone o repositório:
 
 ```sh
-git clone https://github.com/yaralviana/on32-ijs-projeto-banco-comunitario/
+git clone https://github.com/yaralviana/astra-community-bank
 ```
 
 Entre na pasta do projeto:
 
 ```sh
-cd projeto-integrador-banco-comunitario
+cd astra-community-bank
 ```
 
 Entre na branch:
