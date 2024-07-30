@@ -2,7 +2,7 @@ import { Controller, Get, Put, Post, Delete, Param, Body, HttpException, HttpSta
 import { AccountService } from './account.service';
 import { CustomerService } from 'src/customer/customer.service';
 import { AccountDto } from './account.dto';
-import { PaymentType } from './paymentType.enum';
+import { PaymentType } from './account.enum';
 
 @Controller('accounts')
 export class AccountController {

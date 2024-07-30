@@ -1,5 +1,5 @@
 import { Customer } from '../customer/customer.model';
-import { PaymentType } from './paymentType.enum';
+import { PaymentType } from './account.enum';
 
 export class Account {
   balance: number = 0;

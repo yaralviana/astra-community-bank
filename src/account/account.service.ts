@@ -3,6 +3,7 @@ import { Customer } from 'src/customer/customer.model';
 import { Account } from './account.model';
 import { CheckingAccount } from './checkingAccount.model';
 import { SavingsAccount } from './savingAccount.model';
+import { AccountType } from './account.enum';
 
 @Injectable()
 export class AccountService {
@@ -14,9 +15,9 @@ export class AccountService {
         }
 
         let account: Account;
-        if (type === 'checking') {
+        if (type === AccountType.CHEKING) {
             account = new CheckingAccount(customer, extra || 0);
-        } else if (type === 'savings') {
+        } else if (type === AccountType.SAVINGS) {
             account = new SavingsAccount(customer, extra || 0);
         } else {
             throw new Error('Tipo de conta inválido');
