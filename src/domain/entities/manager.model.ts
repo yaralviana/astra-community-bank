@@ -1,5 +1,5 @@
-import { Customer } from '../customer/customer.model'
-import { Account } from '../account/account.model'
+import { Customer } from './customer.model'
+import { Account } from './account.model'
 
 export class Manager {
     fullName: string;

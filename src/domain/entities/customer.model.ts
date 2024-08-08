@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Account } from '../account/account.model'
-import { Manager } from '../manager/manager.model'
+import { Account } from './account.model'
+import { Manager } from './manager.model'
 
 export class Customer {
     id: string

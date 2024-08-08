@@ -1,8 +1,8 @@
 import { Controller, Get, Put, Post, Delete, Param, Body, HttpException, HttpStatus } from '@nestjs/common';
-import { AccountService } from './account.service';
-import { CustomerService } from 'src/customer/customer.service';
-import { AccountDto } from './account.dto';
-import { PaymentType } from './account.enum';
+import { AccountService } from '../../domain/services/account.service';
+import { CustomerService } from 'src/domain/services/customer.service';
+import { AccountDto } from '../dto/account.dto';
+import { PaymentType } from '../../domain/enums/account.enum';
 
 @Controller('accounts')
 export class AccountController {

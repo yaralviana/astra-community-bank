@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus } from '@nestjs/common';
-import { ManagerService } from './manager.service';
-import { ManagerDto } from './manager.dto';
-import { CustomerDto } from 'src/customer/customer.dto';
-import { AccountDto } from 'src/account/account.dto';
-import { CustomerService } from 'src/customer/customer.service';
-import { AccountService } from 'src/account/account.service';
+import { ManagerService } from '../../domain/services/manager.service';
+import { ManagerDto } from '../dto/manager.dto';
+import { CustomerDto } from 'src/application/dto/customer.dto';
+import { AccountDto } from 'src/application/dto/account.dto';
+import { CustomerService } from 'src/domain/services/customer.service';
+import { AccountService } from 'src/domain/services/account.service';
 
 @Controller('managers')
 export class ManagerController {

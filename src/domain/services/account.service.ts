@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Customer } from 'src/customer/customer.model';
-import { Account } from './account.model';
-import { CheckingAccount } from './checkingAccount.model';
-import { SavingsAccount } from './savingAccount.model';
-import { AccountType } from './account.enum';
+import { Customer } from 'src/domain/entities/customer.model';
+import { Account } from '../entities/account.model';
+import { CheckingAccount } from '../entities/checkingAccount.model';
+import { SavingsAccount } from '../entities/savingAccount.model';
+import { AccountType } from '../enums/account.enum';
 
 @Injectable()
 export class AccountService {

@@ -1,5 +1,5 @@
 import { Account } from './account.model';
-import { Customer } from '../customer/customer.model'
+import { Customer } from './customer.model'
 
 export class SavingsAccount extends Account {
     interestRate: number;
