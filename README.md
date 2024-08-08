@@ -14,12 +14,6 @@ Entre na pasta do projeto:
 cd astra-community-bank
 ```
 
-Entre na branch:
-
-```sh
-git checkout semana-03
-```
-
 ### Executar o projeto
 
 - Instalação das dependências:
