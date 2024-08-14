@@ -1,5 +1,5 @@
-import { Account } from "./account.model";
-import { Customer } from './customer.model'
+import { Account } from "./account.entity";
+import { Customer } from './customer.entity'
 
 export class CheckingAccount extends Account {
     overdraftLimit: number = 0;

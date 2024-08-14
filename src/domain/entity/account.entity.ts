@@ -1,14 +1,27 @@
-import { Customer } from './customer.model';
-import { PaymentType } from '../enums/account.enum';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Customer } from './customer.entity';
+import { PaymentType } from '../enum/account.enum';
 
+@Entity()
 export class Account {
-  balance: number = 0;
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'decimal', default: 0 })
+  balance: number;
+
+  @ManyToOne(() => Customer, customer => customer.accounts, { eager: true })
   customer: Customer;
+
+  @Column()
   type: string;
 
-  constructor(customer: Customer, type: string) {
-    this.customer = customer;
-    this.type = type;
+  constructor(customer?: Customer, type?: string) {
+    if (customer && type) {
+      this.customer = customer;
+      this.type = type;
+      this.balance = 0;
+    }
   }
 
   deposit(amount: number): void {

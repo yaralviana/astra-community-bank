@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus } from '@nestjs/common';
-import { CustomerService } from '../../domain/services/customer.service';
+import { CustomerService } from '../../domain/service/customer.service';
 import { CustomerDto } from '../dto/customer.dto';
 
 @Controller('customers')
@@ -15,7 +15,7 @@ export class CustomerController {
     @Body('managerId') managerId: string,
   ): Promise<CustomerDto> {
     try {
-      const customer = await this.customerService.createCustomer(fullName, id, address, phone, managerId);
+      const customer = await this.customerService.createCustomer(fullName, id, address, phone);
       return new CustomerDto(customer);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
