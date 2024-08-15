@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { Account } from './account.entity';
 import { Manager } from './manager.entity';
 
@@ -21,6 +21,16 @@ export class Customer {
 
   @ManyToOne(() => Manager, manager => manager.customers, { eager: true })
   manager: Manager;
+  
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  deletedAt?: Date;
+
 
   openAccount(account: Account): void {
     if (!this.accounts) {

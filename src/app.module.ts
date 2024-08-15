@@ -11,6 +11,7 @@ import { AccountService } from './domain/service/account.service';
 import { Customer } from './domain/entity/customer.entity';
 import { Manager } from './domain/entity/manager.entity';
 import { Account } from './domain/entity/account.entity';
+import { Transaction } from './domain/entity/transaction.entity';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -25,10 +26,10 @@ dotenv.config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Customer, Manager, Account],
+      entities: [Customer, Manager, Account, Transaction],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Customer, Manager, Account]),
+    TypeOrmModule.forFeature([Customer, Manager, Account, Transaction]),
   ],
   controllers: [
     AppController,

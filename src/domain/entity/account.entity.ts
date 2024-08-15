@@ -1,11 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
 import { Customer } from './customer.entity';
 import { PaymentType } from '../enum/account.enum';
+import { Transaction } from './transaction.entity';
 
 @Entity()
 export class Account {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'decimal', default: 0 })
   balance: number;
@@ -13,8 +14,21 @@ export class Account {
   @ManyToOne(() => Customer, customer => customer.accounts, { eager: true })
   customer: Customer;
 
+  @OneToMany(() => Transaction, transaction => transaction.account)
+  transactions: Transaction[];  
+
   @Column()
   type: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  deletedAt?: Date;
+
 
   constructor(customer?: Customer, type?: string) {
     if (customer && type) {

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { Customer } from './customer.entity';
 import { Account } from './account.entity';
 
@@ -12,6 +12,16 @@ export class Manager {
 
   @OneToMany(() => Customer, customer => customer.manager, { cascade: true })
   customers: Customer[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  deletedAt?: Date;
+
 
   constructor(fullName?: string) {
     if (fullName) {

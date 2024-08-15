@@ -1,9 +1,10 @@
 export enum PaymentType {
-  PIX = 'PIX',
-  BILL = 'BILL',
+  PIX = 'pix',
+  BILL = 'bill',
 }
 
 export enum AccountType {
-  CHEKING = 'CHEKING',
-  SAVINGS = 'SAVINGS',
+  CHEKING = 'checking',
+  SAVINGS = 'savings',
 }
+

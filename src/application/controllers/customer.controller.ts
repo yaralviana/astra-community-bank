@@ -12,10 +12,10 @@ export class CustomerController {
     @Body('id') id: string,
     @Body('address') address: string,
     @Body('phone') phone: string,
-    @Body('managerId') managerId: string,
+
   ): Promise<CustomerDto> {
     try {
-      const customer = await this.customerService.createCustomer(fullName, id, address, phone);
+      const customer = await this.customerService.createCustomer(fullName, id, address, phone );
       return new CustomerDto(customer);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

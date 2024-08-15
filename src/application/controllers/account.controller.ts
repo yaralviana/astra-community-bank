@@ -22,20 +22,21 @@ export class AccountController {
       if (!customer) {
         throw new HttpException('Cliente não encontrado', HttpStatus.NOT_FOUND);
       }
-      const account = await this.accountService.createAccount(customer, type, extra);
+
+      const account = await this.accountService.createAccount(customerId, type, extra);
+      
       return new AccountDto(account);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  @Get(':customerId/:type')
+  @Get(':accountId')
   async getAccountById(
-    @Param('customerId') customerId: string,
-    @Param('type') type: string,
+    @Param('accountId') accountId: string,
   ): Promise<AccountDto> {
     try {
-      const account = await this.accountService.getAccountById(customerId, type);
+      const account = await this.accountService.getAccountById(accountId);
       if (!account) {
         throw new HttpException('Conta não encontrada', HttpStatus.NOT_FOUND);
       }
@@ -45,26 +46,24 @@ export class AccountController {
     }
   }
 
-  @Delete(':customerId/:type')
+  @Delete(':accountId')
   async deleteAccount(
-    @Param('customerId') customerId: string,
-    @Param('type') type: string,
+    @Param('accountId') accountId: string,
   ): Promise<void> {
     try {
-      await this.accountService.deleteAccount(customerId, type);
+      await this.accountService.deleteAccount(accountId);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  @Put(':customerId/:type')
+  @Put(':accountId')
   async updateAccountType(
-    @Param('customerId') customerId: string,
-    @Param('type') type: string,
+    @Param('accountId') accountId: string,
     @Body('newType') newType: string,
   ): Promise<AccountDto> {
     try {
-      const account = await this.accountService.getAccountById(customerId, type);
+      const account = await this.accountService.getAccountById(accountId);
       if (!account) {
         throw new HttpException('Conta não encontrada', HttpStatus.NOT_FOUND);
       }
@@ -75,29 +74,35 @@ export class AccountController {
     }
   }
 
-   @Post(':customerId/:type/pay')
-  async processPayment(
-    @Param('customerId') customerId: string,
-    @Param('type') type: string,
-    @Body('amount') amount: number,
-    @Body('paymentType') paymentType: PaymentType,
-    @Body('paymentDetail') paymentDetail: string,
-  ): Promise<AccountDto> {
-    try {
-      const account = this.accountService.getAccountById(customerId, type);
-      if (!account) {
-        throw new HttpException('Conta não encontrada', HttpStatus.NOT_FOUND);
-      }
-      if (!account.hasSufficientFunds(amount)) {
-        throw new HttpException('Saldo insuficiente', HttpStatus.BAD_REQUEST);
-      }
-      account.processPayment(amount, paymentType, paymentDetail);
-      return new AccountDto(account);
-    } catch (error) {
-      if (error instanceof HttpException) {
-        throw error;
-      }
-      throw new HttpException('Ocorreu um erro no servidor', HttpStatus.INTERNAL_SERVER_ERROR);
+@Post(':accountId/pay')
+async processPayment(
+  @Param('accountId') accountId: string,
+  @Body('amount') amount: number,
+  @Body('paymentType') paymentType: string,
+  @Body('paymentDetail') paymentDetail: string,
+): Promise<AccountDto> {
+  try {
+    if (!Object.values(PaymentType).includes(paymentType as PaymentType)) {
+      throw new HttpException('Tipo de pagamento inválido', HttpStatus.BAD_REQUEST);
     }
+
+    // Processa o pagamento e salva a transação
+    const account = await this.accountService.processPaymentAndSaveTransaction(
+      accountId,
+      amount,
+      paymentType as PaymentType,
+      paymentDetail,
+    );
+
+    // Retorna a conta atualizada
+    return new AccountDto(account);
+  } catch (error) {
+    console.error('Erro ao processar pagamento:', error);
+    if (error instanceof HttpException) {
+      throw error;
+    }
+    throw new HttpException(error.message || 'Ocorreu um erro no servidor', HttpStatus.INTERNAL_SERVER_ERROR);
   }
+}
+
 }

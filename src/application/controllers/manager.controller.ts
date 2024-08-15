@@ -135,7 +135,7 @@ async addCustomer(
       if (extra <= 0) {
         throw new HttpException('O depósito deve ser maior que 0', HttpStatus.BAD_REQUEST);
       }
-      const account = await this.accountService.createAccount(customer, type, extra);
+      const account = await this.accountService.createAccount(customerId, type, extra);
       manager.openAccount(customer, account);
       return new AccountDto(account);
     } catch (error) {
@@ -158,12 +158,12 @@ async addCustomer(
       if (!customer) {
         throw new HttpException('Cliente não encontrado', HttpStatus.NOT_FOUND);
       }
-      const account = await this.accountService.getAccountById(customerId, accountType);
+      const account = await this.accountService.getAccountById(customerId);
       if (!account) {
         throw new HttpException('Conta não encontrada', HttpStatus.NOT_FOUND);
       }
       manager.closeAccount(customer, account);
-      await this.accountService.deleteAccount(customerId, accountType);
+      await this.accountService.deleteAccount(customerId);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -185,7 +185,7 @@ async addCustomer(
       if (!customer) {
         throw new HttpException('Cliente não encontrado', HttpStatus.NOT_FOUND);
       }
-      const account = await this.accountService.getAccountById(customerId, accountType);
+      const account = await this.accountService.getAccountById(customerId);
       if (!account) {
         throw new HttpException('Conta não encontrada', HttpStatus.NOT_FOUND);
       }
