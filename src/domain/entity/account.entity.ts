@@ -1,14 +1,41 @@
-import { Customer } from '../customer/customer.model';
-import { PaymentType } from './account.enum';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
+import { Customer } from './customer.entity';
+import { PaymentType } from '../enum/account.enum';
+import { Transaction } from './transaction.entity';
 
+@Entity()
 export class Account {
-  balance: number = 0;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ type: 'decimal', default: 0 })
+  balance: number;
+
+  @ManyToOne(() => Customer, customer => customer.accounts, { eager: true })
   customer: Customer;
+
+  @OneToMany(() => Transaction, transaction => transaction.account)
+  transactions: Transaction[];  
+
+  @Column()
   type: string;
 
-  constructor(customer: Customer, type: string) {
-    this.customer = customer;
-    this.type = type;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  deletedAt?: Date;
+
+
+  constructor(customer?: Customer, type?: string) {
+    if (customer && type) {
+      this.customer = customer;
+      this.type = type;
+      this.balance = 0;
+    }
   }
 
   deposit(amount: number): void {
